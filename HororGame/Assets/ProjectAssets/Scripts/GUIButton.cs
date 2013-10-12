@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 // This is the default script that will allow the designer to create a button
 // and add basic functionality. 
 
@@ -21,6 +22,11 @@ public class GUIButton : MonoBehaviour
 		// Calculate buttons pixel position from relative coordinates
 		buttonPositionX = Screen.width * transform.position.x;
 		buttonPositionY = Screen.height * transform.position.y;
+		
+		buttonWidth = Screen.width * transform.localScale.x;
+		buttonHeight = Screen.height * transform.localScale.y;
+		
+		
 		
 		
 	}
@@ -60,6 +66,11 @@ public class GUIButton : MonoBehaviour
 			
 			if(changeLevel)	// All we want to do with this click is change the level
 			{
+				if(levelName == "MainMenu")
+					Screen.showCursor = true;
+				else
+					Screen.showCursor = false;
+				
 				Application.LoadLevel(levelName);
 			}
 			else            // Call the function that we want to execute
@@ -75,12 +86,12 @@ public class GUIButton : MonoBehaviour
 	// This function checks if the mouse is over
 	// our GUITexture or not. 
 	bool CheckBoundaries()
-	{
+	{		
 		// For readability and easy to type, get button texture boundaries.
-		float left = buttonPositionX;
-		float right = buttonPositionX + GUITextureButton.pixelInset.width;
-		float bottom = buttonPositionY;
-		float top = buttonPositionY + GUITextureButton.pixelInset.height;
+		float left = buttonPositionX - (buttonWidth / 2.0f);
+		float right = buttonPositionX + (buttonWidth / 2.0f);
+		float bottom = buttonPositionY - (buttonHeight / 2.0f);
+		float top = buttonPositionY + (buttonHeight / 2.0f);
 		
 		float mouseX = Input.mousePosition.x;
 		float mouseY = Input.mousePosition.y;
@@ -119,8 +130,9 @@ public class GUIButton : MonoBehaviour
 			
 	// Private data
 	private GUITexture GUITextureButton;
-	private float buttonPositionX;		// Because button position is [0, 1] relative to the screen
-	private float buttonPositionY;		// I have to calculate and store the actual pixel position here			
+	public float buttonPositionX;		// Because button position is [0, 1] relative to the screen
+	public float buttonPositionY;		// I have to calculate and store the actual pixel position here	
 	
-	
+	public float buttonWidth;
+	public float buttonHeight;
 }
